@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:15
+    container_name: estateiq-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: estateiq
+      POSTGRES_USER: estateiq
+      POSTGRES_PASSWORD: estateiq
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: estateiq-backend
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "8081:8080"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: estateiq
+      DB_USERNAME: estateiq
+      DB_PASSWORD: estateiq
+      JWT_SECRET: ${JWT_SECRET}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+
+volumes:
+  postgres_data:
