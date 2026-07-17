@@ -11,6 +11,7 @@ FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 
 COPY --from=build /app/target/*.jar app.jar
+COPY --from=build /app/frontend ./frontend
 
 EXPOSE 8080
 

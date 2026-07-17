@@ -47,32 +47,44 @@ Services
 PostgreSQL
 ```
 
-## Local Setup
+## Deployment & Secret Management
 
-1. Set the required environment variables:
+### 1. Local Setup with `.env`
 
-```bash
-export JWT_SECRET="your-32-byte-or-longer-secret-key"
-export GEMINI_API_KEY="your-gemini-api-key"
-```
+To prevent committing sensitive keys to GitHub, EstateIQ uses environment variables. Follow these steps to configure your local environment:
 
-2. Start the app and database with Docker Compose:
+1. Copy the `.env.example` template to create a `.env` file:
+   ```bash
+   copy .env.example .env
+   ```
+2. Open the `.env` file and set the required variables:
+   - `JWT_SECRET`: A secure random string of at least 32 characters (e.g., `EstateIQSecretKey2026AtSecure!!!`).
+   - `GEMINI_API_KEY`: Your Gemini API key from Google AI Studio.
+3. Start the application using Docker Compose (which automatically reads the `.env` file):
+   ```bash
+   docker compose down
+   docker compose up --build
+   ```
+4. Access the frontend app:
+   ```text
+   http://localhost:8081/index.html
+   ```
+5. Open Swagger UI:
+   ```text
+   http://localhost:8081/swagger-ui.html
+   ```
 
-```bash
-docker compose up --build
-```
+### 2. Production Deployment (Render / Railway)
 
-3. Open Swagger UI:
+When deploying to cloud platforms like Render or Railway:
 
-```text
-http://localhost:8080/swagger-ui.html
-```
-
-## Gemini API Key Setup
-
-- Create a Gemini API key in Google AI Studio.
-- Set it in your shell as `GEMINI_API_KEY`.
-- The application reads it through `gemini.api.key` from environment variables, so the key is never hardcoded.
+1. **Never Commit Secrets**: Do NOT commit your `.env` file to your GitHub repository. The `.gitignore` file is pre-configured to ignore `.env` so it stays safe on your local machine.
+2. **Provision Database**: Set up a PostgreSQL database service on your hosting platform.
+3. **Configure Environment Variables**: In your web application settings panel on Render/Railway, add the following environment variables:
+   - `JWT_SECRET`: A unique, secure 32+ character key.
+   - `GEMINI_API_KEY`: Your Google AI Studio key.
+   - `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USERNAME`, `DB_PASSWORD`: Set these to map to your production database credentials.
+4. **Deploy**: Build and run the project. The platform will inject the variables securely into the running container.
 
 ## API Endpoints
 

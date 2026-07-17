@@ -21,5 +21,8 @@ public interface PropertyService {
                                                Integer bhk,
                                                Double minPrice,
                                                Double maxPrice,
+                                               String city,
+                                               String sublocation,
+                                               String possessionStatus,
                                                Pageable pageable);
 }

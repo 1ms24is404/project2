@@ -73,6 +73,9 @@ public class PropertyServiceImpl implements PropertyService {
                                                       Integer bhk,
                                                       Double minPrice,
                                                       Double maxPrice,
+                                                      String city,
+                                                      String sublocation,
+                                                      String possessionStatus,
                                                       Pageable pageable) {
         Specification<Property> specification = (root, query, criteriaBuilder) -> {
             var predicates = criteriaBuilder.conjunction();
@@ -98,6 +101,24 @@ public class PropertyServiceImpl implements PropertyService {
 
             if (maxPrice != null) {
                 predicates.getExpressions().add(criteriaBuilder.lessThanOrEqualTo(root.get("price"), maxPrice));
+            }
+
+            if (StringUtils.hasText(city)) {
+                predicates.getExpressions().add(criteriaBuilder.equal(
+                        criteriaBuilder.lower(root.get("city")),
+                        city.toLowerCase()));
+            }
+
+            if (StringUtils.hasText(sublocation)) {
+                predicates.getExpressions().add(criteriaBuilder.equal(
+                        criteriaBuilder.lower(root.get("sublocation")),
+                        sublocation.toLowerCase()));
+            }
+
+            if (StringUtils.hasText(possessionStatus)) {
+                predicates.getExpressions().add(criteriaBuilder.equal(
+                        criteriaBuilder.lower(root.get("possessionStatus")),
+                        possessionStatus.toLowerCase()));
             }
 
             return predicates;
@@ -132,6 +153,19 @@ public class PropertyServiceImpl implements PropertyService {
                 property.getArea(),
                 property.getAmenities(),
                 property.getDescription(),
-                property.getCreatedAt());
+                property.getCreatedAt(),
+                property.getCity(),
+                property.getSublocation(),
+                property.getPossessionStatus(),
+                property.getLatitude(),
+                property.getLongitude(),
+                property.getCoverImageUrl(),
+                property.getNearbySchools(),
+                property.getNearbyHospitals(),
+                property.getNearbyMetro(),
+                property.getInvestmentRating(),
+                property.getRentalYield(),
+                property.getPriceHistory(),
+                property.getRating());
     }
 }

@@ -6,6 +6,8 @@ import com.estateiq.entity.PropertyType;
 import com.estateiq.service.PropertyService;
 import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.Operation;
+import java.util.List;
+import java.util.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -63,7 +65,24 @@ public class PropertyController {
                                                                       @RequestParam(required = false) Integer bhk,
                                                                       @RequestParam(required = false) Double minPrice,
                                                                       @RequestParam(required = false) Double maxPrice,
+                                                                      @RequestParam(required = false) String city,
+                                                                      @RequestParam(required = false) String sublocation,
+                                                                      @RequestParam(required = false) String possessionStatus,
                                                                       Pageable pageable) {
-        return ResponseEntity.ok(propertyService.getAllProperties(location, propertyType, bhk, minPrice, maxPrice, pageable));
+        return ResponseEntity.ok(propertyService.getAllProperties(location, propertyType, bhk, minPrice, maxPrice, city, sublocation, possessionStatus, pageable));
+    }
+
+    @GetMapping("/locations")
+    @Operation(summary = "Get seeded locations", description = "Returns a map of cities and their sublocations.")
+    public ResponseEntity<Map<String, List<String>>> getLocations() {
+        Map<String, List<String>> locations = Map.of(
+            "Bangalore", List.of("Whitefield", "Electronic City", "Koramangala", "Indiranagar", "HSR Layout"),
+            "Mumbai", List.of("Bandra", "Andheri", "Powai", "Navi Mumbai", "Thane"),
+            "Hyderabad", List.of("HITEC City", "Gachibowli", "Kondapur", "Jubilee Hills", "Madhapur"),
+            "Pune", List.of("Hinjawadi", "Baner", "Wakad", "Kharadi", "Viman Nagar"),
+            "Chennai", List.of("OMR", "Velachery", "Anna Nagar", "Tambaram", "Sholinganallur"),
+            "Delhi NCR", List.of("Gurgaon", "Noida", "Dwarka", "Greater Noida", "Rohini")
+        );
+        return ResponseEntity.ok(locations);
     }
 }

@@ -39,6 +39,20 @@ public class Property {
 
     private LocalDateTime createdAt;
 
+    private String city;
+    private String sublocation;
+    private String possessionStatus;
+    private Double latitude;
+    private Double longitude;
+    private String coverImageUrl;
+    private String nearbySchools;
+    private String nearbyHospitals;
+    private String nearbyMetro;
+    private Double investmentRating;
+    private Double rentalYield;
+    private String priceHistory;
+    private Double rating;
+
     public Property() {
     }
 
@@ -142,5 +156,109 @@ public class Property {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getSublocation() {
+        return sublocation;
+    }
+
+    public void setSublocation(String sublocation) {
+        this.sublocation = sublocation;
+    }
+
+    public String getPossessionStatus() {
+        return possessionStatus;
+    }
+
+    public void setPossessionStatus(String possessionStatus) {
+        this.possessionStatus = possessionStatus;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getCoverImageUrl() {
+        return coverImageUrl;
+    }
+
+    public void setCoverImageUrl(String coverImageUrl) {
+        this.coverImageUrl = coverImageUrl;
+    }
+
+    public String getNearbySchools() {
+        return nearbySchools;
+    }
+
+    public void setNearbySchools(String nearbySchools) {
+        this.nearbySchools = nearbySchools;
+    }
+
+    public String getNearbyHospitals() {
+        return nearbyHospitals;
+    }
+
+    public void setNearbyHospitals(String nearbyHospitals) {
+        this.nearbyHospitals = nearbyHospitals;
+    }
+
+    public String getNearbyMetro() {
+        return nearbyMetro;
+    }
+
+    public void setNearbyMetro(String nearbyMetro) {
+        this.nearbyMetro = nearbyMetro;
+    }
+
+    public Double getInvestmentRating() {
+        return investmentRating;
+    }
+
+    public void setInvestmentRating(Double investmentRating) {
+        this.investmentRating = investmentRating;
+    }
+
+    public Double getRentalYield() {
+        return rentalYield;
+    }
+
+    public void setRentalYield(Double rentalYield) {
+        this.rentalYield = rentalYield;
+    }
+
+    public String getPriceHistory() {
+        return priceHistory;
+    }
+
+    public void setPriceHistory(String priceHistory) {
+        this.priceHistory = priceHistory;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 }
