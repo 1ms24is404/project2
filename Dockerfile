@@ -3,7 +3,6 @@ WORKDIR /app
 
 COPY pom.xml .
 COPY src ./src
-COPY frontend ./frontend
 
 RUN mvn -q -DskipTests package
 
@@ -11,7 +10,6 @@ FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 
 COPY --from=build /app/target/*.jar app.jar
-COPY --from=build /app/frontend ./frontend
 
 EXPOSE 8080
 
