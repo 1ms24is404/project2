@@ -20,12 +20,12 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv("${SONARQUBE_SERVER}") {
-                    sh 'mvn sonar:sonar'
-                }
-            }
+    steps {
+        withSonarQubeEnv('sonarqube-server') {
+            sh 'mvn sonar:sonar'
         }
+    }
+}
 
         stage('Quality Gate') {
             steps {
