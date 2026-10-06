@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: estateiq
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: estateiq
+  template:
+    metadata:
+      labels:
+        app: estateiq
+    spec:
+      containers:
+        - name: estateiq
+          image: bhumisheru/estateiq:latest
+          ports:
+            - containerPort: 8080
