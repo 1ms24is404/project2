@@ -1,12 +1,17 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_IMAGE = "bhumisheru/estateiq"
+        SONARQUBE_SERVER = "sonarqube-server"
+    }
+
+    tools {
+        maven 'Maven'
+        jdk 'JDK21'
+    }
+
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/1ms24is404/project2.git'
-            }
-        }
 
         stage('Build') {
             steps {
@@ -14,15 +19,43 @@ pipeline {
             }
         }
 
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv("${SONARQUBE_SERVER}") {
+                    sh 'mvn sonar:sonar'
+                }
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 2, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
         stage('Docker Build') {
             steps {
-                sh 'docker build -t bhumisheru/estateiq .'
+                sh 'docker build -t $DOCKER_IMAGE:latest .'
+            }
+        }
+
+        stage('Docker Login') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+                }
             }
         }
 
         stage('Docker Push') {
             steps {
-                sh 'docker push bhumisheru/estateiq'
+                sh 'docker push $DOCKER_IMAGE:latest'
             }
         }
     }
