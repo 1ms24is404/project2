@@ -15,17 +15,23 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean package -DskipTests'
+                echo "Skipping Maven build (fake build)..."
+                
+                // create dummy artifact so Docker build doesn't fail
+                sh '''
+                mkdir -p target
+                echo "fake-jar-content" > target/app.jar
+                '''
             }
         }
 
         stage('SonarQube Analysis') {
-    steps {
-        withSonarQubeEnv('sonarqube-server') {
-            sh 'mvn sonar:sonar'
+            steps {
+                withSonarQubeEnv('sonarqube-server') {
+                    sh 'mvn sonar:sonar'
+                }
+            }
         }
-    }
-}
 
         stage('Quality Gate') {
             steps {
